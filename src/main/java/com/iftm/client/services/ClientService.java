@@ -65,6 +65,12 @@ public class ClientService {
 			throw new DatabaseException("Integrity violation");
 		}
 	}
+	
+	@Transactional(readOnly = true)
+	public Page<ClientDTO> findByIncomeLessThan(double income, PageRequest pageRequest) {
+		Page<Client> list = repository.findByIncomeLessThan(income, pageRequest);
+		return list.map(x -> new ClientDTO(x));
+	}
 
 	private void updateData(Client entity, ClientDTO dto) {
 		entity.setName(dto.getName());
