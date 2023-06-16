@@ -31,5 +31,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     public List<Client> findByIncomeBetween(Double valor1, Double valor2);
 
     public List<Client> findClientBybirthDateBetween(Instant DataInicio, Instant DataTermino);
-
+    
+    public  Page<Client> findByIncomeGreaterThan(double salarioI, Pageable pageable);
 }

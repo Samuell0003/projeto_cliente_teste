@@ -45,6 +45,18 @@ public class ClientResource {
 		ClientDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
+
+	@GetMapping(value = "/incomeGreaterThan/")
+	public ResponseEntity<Page<ClientDTO>> findByIncomeGreaterThan(
+			@RequestParam(value = "income", defaultValue = "0") Double income,
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction,
+			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Page<ClientDTO> list = service.findByIncomeGreaterThan(pageRequest, income);
+		return ResponseEntity.ok().body(list);
+	}
 	
 	@PostMapping
 	public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO dto) {

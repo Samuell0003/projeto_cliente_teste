@@ -55,6 +55,11 @@ public class ClientService {
 			throw new ResourceNotFoundException("Id not found " + id);
 		}
 	}
+	@Transactional(readOnly = true)
+	public Page<ClientDTO> findByIncomeGreaterThan(PageRequest pageRequest, Double income) {
+		Page<Client> list = repository.findByIncomeGreaterThan(income, pageRequest);
+		return list.map(x -> new ClientDTO(new Client(x.getId(), x.getName(), x.getCpf(), x.getIncome(), x.getBirthDate(), x.getChildren())));
+	}
 	
 	public void delete(Long id) {
 		try {
